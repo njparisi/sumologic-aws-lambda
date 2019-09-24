@@ -17,6 +17,7 @@ The following AWS Lambda environment variables are supported in both the lambda 
 * SUMO_ENDPOINT (REQUIRED) - SumoLogic HTTP Collector endpoint URL.
 * ENCODING (OPTIONAL) - Encoding to use when decoding CloudWatch log events. Default is 'utf-8'.
 * SOURCE_CATEGORY_OVERRIDE (OPTIONAL) - Override _sourceCategory metadata field within SumoLogic.
+* SOURCE_FIELDS_OVERRIDE (OPTIONAL) - Override metadata fields within SumoLogic.
 * SOURCE_HOST_OVERRIDE (OPTIONAL) - Override _sourceHost metadata field within SumoLogic.
 * SOURCE_NAME_OVERRIDE (OPTIONAL) - Override _sourceName metadata field within SumoLogic.
 * INCLUDE_LOG_INFO (OPTIONAL) - Set it to true when loggroup/logstream values needs to be included in logs. Default is false
@@ -52,7 +53,7 @@ SumoCWProcessDLQLambda supports one extra environment variable
 
 # Dynamic Metadata Fields
 
-The lambda supports dynamically overriding the _sourceName, _sourceHost and _sourceCategory per log message by setting `_sumo_metadata` within a json log.
+The lambda supports dynamically overriding the _sourceName, _sourceHost, _sourceCategory and metadata fields per log message by setting `_sumo_metadata` within a json log.
 
 This can be useful when writing to CloudWatch Logs via a lambda function.
 
@@ -68,7 +69,8 @@ exports.handler = (event, context, callback) => {
         '_sumo_metadata': {
             'category': 'prod/appa/console',
             'sourceName': 'other_source',
-            'sourceHost': serverIp
+            'sourceHost': serverIp,
+            'sourceFields': 'key1=value1,key2=value2'
         }
 
     }));
